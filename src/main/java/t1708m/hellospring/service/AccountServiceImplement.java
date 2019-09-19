@@ -1,6 +1,10 @@
 package t1708m.hellospring.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import t1708m.hellospring.entity.Account;
 import t1708m.hellospring.repository.AccountRepository;
@@ -14,10 +18,12 @@ public class AccountServiceImplement implements AccountService {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
-    public List<Account> getList() {
-        return accountRepository.findAll();
+    public Page<Account> getList(int page, int limit) {
+        return accountRepository.findAll(PageRequest.of(page - 1, limit));
     }
 
     @Override
@@ -42,6 +48,7 @@ public class AccountServiceImplement implements AccountService {
     @Override
     public Account register(Account account) {
         // thực hiện mã hoá password nếu cần.
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setCreatedAtMLS(Calendar.getInstance().getTimeInMillis());
         account.setUpdatedAtMLS(Calendar.getInstance().getTimeInMillis());
         account.setStatus(1);
@@ -61,5 +68,10 @@ public class AccountServiceImplement implements AccountService {
             return accountRepository.save(existAccount);
         }
         return null;
+    }
+
+    @Override
+    public Account getByEmail(String email) {
+        return accountRepository.findById(email).orElse(null);
     }
 }

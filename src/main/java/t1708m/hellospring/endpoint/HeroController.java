@@ -1,4 +1,4 @@
-package t1708m.hellospring.controller;
+package t1708m.hellospring.endpoint;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

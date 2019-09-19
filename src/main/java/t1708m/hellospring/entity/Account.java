@@ -4,12 +4,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Account {
     @Id
+    @Email(message = "Email không đúng định dạng.")
+    @Size(min = 7, max = 30, message = "Tối thiểu 7 ký tự, tối đa 30 ký tự.")
     private String email;
     private String password;
+    @NotNull
     private String fullName;
     private String phone;
     private String address;
