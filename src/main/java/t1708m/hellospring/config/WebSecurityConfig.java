@@ -20,6 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import t1708m.hellospring.entity.Account;
 import t1708m.hellospring.service.AccountService;
 
@@ -77,12 +78,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/accounts**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole(String.format("%s", Account.Role.ADMIN.getValue()))
                 .and()
+                .addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/accounts/login")
                 .permitAll()
+                .failureUrl("/accounts/login?error")
                 .failureHandler(authenticationFailureHandler())
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling();
     }
 }
