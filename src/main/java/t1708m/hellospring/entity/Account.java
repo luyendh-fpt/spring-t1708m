@@ -21,12 +21,31 @@ public class Account {
     private String phone;
     private String address;
     private String salt;
+    private String role; // admin | user | employee
 
     private long createdAtMLS;
     private long updatedAtMLS;
     private long deletedAtMLS;
 
     private int status;
+
+    public enum Role {
+        ADMIN("admin"), USER("user");
+
+        private String value;
+
+        Role(String user) {
+            this.value = user;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+    }
 
     public String getEmail() {
         return email;
@@ -106,5 +125,13 @@ public class Account {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

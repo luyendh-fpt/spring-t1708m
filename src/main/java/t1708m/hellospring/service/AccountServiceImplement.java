@@ -51,6 +51,7 @@ public class AccountServiceImplement implements AccountService {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         account.setCreatedAtMLS(Calendar.getInstance().getTimeInMillis());
         account.setUpdatedAtMLS(Calendar.getInstance().getTimeInMillis());
+        account.setRole(Account.Role.USER.getValue());
         account.setStatus(1);
         return accountRepository.save(account);
     }
